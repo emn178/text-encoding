@@ -7,6 +7,14 @@ import { codePointsToString, includes, ToDictionary } from "../encoding/utilitie
 import { Decoder } from "./Decoder";
 import { Stream } from "./Stream";
 
+type TextDecoderOptions = {
+  fatal?: boolean;
+  ignoreBOM?: boolean;
+};
+
+type DecodeOptions = {
+  stream?: boolean;
+}
 
 /**
  * @constructor
@@ -26,10 +34,10 @@ export class TextDecoder {
   private _error_mode: string;
   private _do_not_flush: boolean;
 
-  constructor(label: string | undefined, options: object | undefined) {
+  constructor(label: string = null, options: TextDecoderOptions = null) {
 
     label = label !== undefined ? String(label) : DEFAULT_ENCODING;
-    options = ToDictionary(options);
+    const optionsMap = ToDictionary(options);
 
     // A TextDecoder object has an associated encoding, decoder,
     // stream, ignore BOM flag (initially unset), BOM seen flag
@@ -72,12 +80,12 @@ export class TextDecoder {
 
     // 5. If options's fatal member is true, set dec's error mode to
     // fatal.
-    if (Boolean(options['fatal']))
+    if (Boolean(optionsMap['fatal']))
       this._error_mode = 'fatal';
 
     // 6. If options's ignoreBOM member is true, set dec's ignore BOM
     // flag.
-    if (Boolean(options['ignoreBOM']))
+    if (Boolean(optionsMap['ignoreBOM']))
       this._ignoreBOM = true;
 
     // For pre-ES5 runtimes:
@@ -127,11 +135,11 @@ export class TextDecoder {
    * @param {Object=} options
    * @return {string} The decoded string.
    */
-  decode(input: ArrayBuffer | ArrayLike<number> | Uint8Array | undefined, options: object | undefined): string {
+  decode(input?: ArrayBuffer | ArrayLike<number> | Uint8Array, options?: DecodeOptions): string {
 
     const bytes = getBytesFromInput(input);
 
-    options = ToDictionary(options);
+    const optionsMap = ToDictionary(options);
 
     // 1. If the do not flush flag is unset, set decoder to a new
     // encoding's decoder, set stream to a new stream, and unset the
@@ -145,7 +153,7 @@ export class TextDecoder {
 
     // 2. If options's stream is true, set the do not flush flag, and
     // unset the do not flush flag otherwise.
-    this._do_not_flush = Boolean(options['stream']);
+    this._do_not_flush = Boolean(optionsMap['stream']);
 
     // 3. If input is given, push a copy of input to stream.
     // TODO: Align with spec algorithm - maintain stream on instance.
