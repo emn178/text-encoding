@@ -34,7 +34,7 @@ export class TextDecoder {
   private _error_mode: string;
   private _do_not_flush: boolean;
 
-  constructor(label: string = null, options: TextDecoderOptions = null) {
+  constructor(label?: string, options?: TextDecoderOptions) {
 
     label = label !== undefined ? String(label) : DEFAULT_ENCODING;
     const optionsMap = ToDictionary(options);
