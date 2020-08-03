@@ -10,13 +10,12 @@ import { Stream } from "./Stream";
 
 
 type TextEncoderOptions = {
-  [x: string]: any;
-  NONSTANDARD_allowLegacyEncoding: boolean;
-  fatal: boolean;
+  NONSTANDARD_allowLegacyEncoding?: boolean;
+  fatal?: boolean;
 };
 
 type EncodeOptions = {
-  stream: boolean;
+  stream?: boolean;
 };
 
 /**
@@ -31,7 +30,7 @@ export class TextEncoder {
   private _do_not_flush: boolean;
   private _fatal: string;
 
-  constructor(label: string | undefined, options: TextEncoderOptions = undefined) {
+  constructor(label?: string, options?: TextEncoderOptions) {
     
     const optionsMap = ToDictionary(options);
 
@@ -56,7 +55,7 @@ export class TextEncoder {
     // 2. Set enc's encoding to UTF-8's encoder.
     if (Boolean(optionsMap['NONSTANDARD_allowLegacyEncoding'])) {
       // NONSTANDARD behavior.
-      label = label !== undefined ? String(label) : DEFAULT_ENCODING;
+      label = !!label ? String(label) : DEFAULT_ENCODING;
       const encoding = getEncoding(label);
       if (encoding === null || encoding.name === 'replacement')
         throw RangeError('Unknown encoding: ' + label);
@@ -104,7 +103,7 @@ export class TextEncoder {
    * @param {Object=} options
    * @return {!Uint8Array} Encoded bytes, as a Uint8Array.
    */
-  encode(opt_string: string | undefined, options: EncodeOptions = undefined): Uint8Array {
+  encode(opt_string: string, options?: EncodeOptions): Uint8Array {
     opt_string = opt_string === undefined ? '' : String(opt_string);
     const optionsMap = ToDictionary(options);
 

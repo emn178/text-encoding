@@ -22,7 +22,7 @@ export function includes(array: Array<any>, item: any): boolean {
  * @return {Object}
  */
 export function ToDictionary(o: any): { [x: string]: any } {
-  if (o === undefined) return {};
+  if (o === undefined || o === null) return {};
   if (o === Object(o)) return o;
   throw TypeError('Could not convert argument to dictionary');
 }
