@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer');
 describe('Check library browser test results', () => {
 
   let browser, page;
-  const url = 'http://localhost:8000/test/browser'
+  const url = 'http://localhost:8000/test/browser/index.html'
 
   beforeEach(async () => {
     browser = await puppeteer.launch();
