@@ -14,6 +14,7 @@ if (typeof window !== 'undefined') {
 
   if (checkUndefined('TextEncoder')) 
     window['TextEncoder'] = TextEncoder;
+  window['ZxingTextEncoder'] = TextEncoder;
 }
 
 export { TextDecoder, TextEncoder };
