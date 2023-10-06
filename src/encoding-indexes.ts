@@ -43,4 +43,10 @@ if (typeof global !== 'undefined' && !('TextEncodingIndexes' in global)) {
   global['TextEncodingIndexes'] = { encodingIndexes };
 }
 
+declare const window;
+
+if (typeof window !== 'undefined' && window['loadEncodingIndexes']) {
+  setTimeout(() => window['loadEncodingIndexes'](), 0);
+}
+
 export { encodingIndexes }

@@ -243,8 +243,12 @@ export const decoders: Decoders = {
   'x-user-defined': (options: { fatal: boolean; }) => new XUserDefinedDecoder(options),
 }
 
-
-if (encodingIndexes) {
+let loaded = false;
+function loadEncodingIndexes() {
+  if (loaded) {
+    return;
+  }
+  loaded = true;
   encodings.forEach(function (category) {
     if (category.heading !== 'Legacy single-byte encodings')
       return;
@@ -261,4 +265,14 @@ if (encodingIndexes) {
       };
     });
   });
+}
+
+if (encodingIndexes) {
+  loadEncodingIndexes();
+}
+
+declare const window;
+
+if (typeof window !== 'undefined') {
+  window['loadEncodingIndexes'] = loadEncodingIndexes;
 }
